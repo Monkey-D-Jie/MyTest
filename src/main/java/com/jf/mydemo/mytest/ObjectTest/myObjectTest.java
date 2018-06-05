@@ -25,6 +25,8 @@ import org.junit.Test;
  * http://www.importnew.com/6960.html
  * 2）Java中创建对象的5种不同方法 - ImportNew
  * http://www.importnew.com/22405.html
+ * 意味着clone()返回的对象可能会违反这些约定（通过调用super.clone()方法返回的对象），当重写clone()方法时，你可以遵循前面两条（a.clone()!=a和a.clone().getClass()==a.getClass()）。
+为了遵循第三个特性（clone.equals(a)），你必须重写equals方法。
  */
 
 public class myObjectTest {
@@ -53,6 +55,8 @@ public class myObjectTest {
             System.out.println("clone前后对应的原始对象是否一致:" + (student.getClass() == studentClone.getClass()));
             //输出结果：false、由堆中不同的位置可知，这里比较的是对象，最终比较的即对象在内存中地址。堆中不同，自然这里就是false了
             System.out.println("clone后的对象是否满足equals条件:" + studentClone.equals(student));
+            //要对equal方法重写后，才能达到这个效果。
+//           System.out.println("clone后的对象是否满足equals条件(重写equals方法后):" +  student.clone().equals(student));
             System.out.println("----------------------------------------------------------");
             //①：对clone对象的基本类型属性作改变
             /**
