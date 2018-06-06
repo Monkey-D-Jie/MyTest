@@ -2,12 +2,16 @@ package com.jf.mydemo.mytest.ObjectTest;
 
 import com.jf.mydemo.mytest.ObjectTest.Clone.Student;
 import com.jf.mydemo.mytest.ObjectTest.Clone.Teacher;
+import com.jf.mydemo.mytest.ObjectTest.Reflect.Person;
 import com.jf.mydemo.mytest.ObjectTest.Serializable.User;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,19 +23,29 @@ import java.util.List;
  * @Date: 2018-06-05 10:30
  * @Description: 创建对象的测试类
  * To change this template use File | Settings | File and Templates.
+ * ------------------------------------------------
  * ？在Java OO 思想下创建对象的方法有哪几种？
  * 1.new 构造器
  * ---平时都在用，不用说了嘛
+ *------------------------------------------------
  * 2.序列化和反序列化
- * <p>
- * <p>
- * <p>
+ * <p>来自:深入分析Java的序列化与反序列化-HollisChuang's Blog（相当不错的一篇帖子）
+ * http://www.hollischuang.com/archives/1140
+ *
+ * ------------------------------------------------
  * 3.利用反射
- * ①：摘自 https://blog.csdn.net/u011784767/article/details/78165908
- * 反射Class.forName(classFullPathName).newInstance()创建对象，一定要调用默认的无参构造函数
- * 通过反射Player.class.getConstructor(int.class,String.class).newInstance()创建对象，一定要调用相应的构造函数
- * <p>
- * <p>
+ *  参考帖：
+ *  来自
+ *  Java反射机制创建对象 - CSDN博客
+https://blog.csdn.net/smartboy_01/article/details/23201391
+ *要点摘录:
+ * 通过反射：
+ * ①：可以创建对象；
+ * ②：可以获取方法（有参数的，无参数的都可以），并调用之（私有的要设置accessible为true）；
+ * ③：可以获取到属性，并调用之。（私有的要设置accessible为true）
+ *
+ *
+ * ------------------------------------------------
  * 4.直接Clone
  * 参考：
  * 1）clone方法是如何工作的 - ImportNew
@@ -137,7 +151,6 @@ public class myObjectTest {
      * 在序列化过程中，如果被序列化的类中定义了writeObject 和 readObject 方法，
      * 虚拟机会试图调用对象类里的 writeObject 和 readObject 方法，进行用户自定义的序列化和反序列化（即序列化过程有用户自行控制）。
      * 如果没有，才会走default的方法。
-     *
      */
     @Test
     public void serializableArrayListTest() throws IOException, ClassNotFoundException {
@@ -159,6 +172,50 @@ public class myObjectTest {
             file.delete();
         }
         System.out.println("new StringList" + newStringList);
+    }
+    /**
+     * 3.反射方法创建对象的测试
+     */
+    @Test
+    public void reflectTest() throws Exception {
+        System.out.println("------------------反射获取对象--------------------------------------");
+        Class class1 = Class.forName("com.jf.mydemo.mytest.ObjectTest.Reflect.Person");
+        Person person1 = (Person)class1.newInstance();
+        System.out.println("【Class.forName.newInstance()方法创建对象】person是否为Person的一个实例对象"+(person1 instanceof Person));
+        Class class2 = Person.class;
+        Constructor constructor = class2.getConstructor(String.class,int.class);
+        Person person2 = (Person) constructor.newInstance("Jacky",24);
+        System.out.println("【Person.class.getConstructor(parameters).newInstance()方法创建对象】person是否为Person的一个实例对象"+(person2 instanceof Person));
+        System.out.println("其信息为："+person2.toString());
+        System.out.println("-------------------反射获取方法-------------------------------------");
+        Class class3 = Person.class;
+        Method method = class3.getMethod("publicHelloMethod",String.class,   int.class);
+        System.out.println("反射获取公有方法:"+method.getName());
+        Person p = (Person) class3.getConstructor().newInstance();
+        method.invoke(p,"小崔",42);
+        Method method2 = class3.getDeclaredMethod("privateHelloMethod",String.class, int.class);
+        System.out.println("反射获取私有方法:"+method2.getName());
+        method2.setAccessible(true);
+        method2.invoke(p,"小刚",42);
+        System.out.println("反射获取所用方法:");
+        Method[] methods = class3.getDeclaredMethods();
+        for (int i = 0; i <methods.length ; i++) {
+            System.out.println(methods[i].getName());
+        }
+        System.out.println("--------------------反射获取属性，并修改属性------------------------------------");
+        Person p2 = new Person("小明",30);
+        System.out.println("未修改属性前的信息:"+p2.toString());
+        Class classType = Person.class;
+        Field field = classType.getDeclaredField("name");
+        Field field2 = classType.getDeclaredField("age");
+        field.setAccessible(true);
+        field2.setAccessible(true);
+        field.set(p2, "lxf");
+        field2.set(p2, 23);
+        System.out.println("使用反射机制修改被private修饰的name是：" + p2.getName());
+        System.out.println("使用反射机制修改被private修饰的age是：" + p2.getAge());
+
+
     }
 
     /**
