@@ -2,7 +2,15 @@ package com.jf.mydemo.mytest.ObjectTest;
 
 import com.jf.mydemo.mytest.ObjectTest.Clone.Student;
 import com.jf.mydemo.mytest.ObjectTest.Clone.Teacher;
+import com.jf.mydemo.mytest.ObjectTest.Serializable.User;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,11 +22,16 @@ import org.junit.Test;
  * ？在Java OO 思想下创建对象的方法有哪几种？
  * 1.new 构造器
  * ---平时都在用，不用说了嘛
- * 2.反序列化
+ * 2.序列化和反序列化
+ * <p>
+ * <p>
+ * <p>
  * 3.利用反射
  * ①：摘自 https://blog.csdn.net/u011784767/article/details/78165908
  * 反射Class.forName(classFullPathName).newInstance()创建对象，一定要调用默认的无参构造函数
  * 通过反射Player.class.getConstructor(int.class,String.class).newInstance()创建对象，一定要调用相应的构造函数
+ * <p>
+ * <p>
  * 4.直接Clone
  * 参考：
  * 1）clone方法是如何工作的 - ImportNew
@@ -26,14 +39,130 @@ import org.junit.Test;
  * 2）Java中创建对象的5种不同方法 - ImportNew
  * http://www.importnew.com/22405.html
  * 意味着clone()返回的对象可能会违反这些约定（通过调用super.clone()方法返回的对象），当重写clone()方法时，你可以遵循前面两条（a.clone()!=a和a.clone().getClass()==a.getClass()）。
-为了遵循第三个特性（clone.equals(a)），你必须重写equals方法。
+ * 为了遵循第三个特性（clone.equals(a)），你必须重写equals方法。
  */
 
 public class myObjectTest {
 
 
     /**
-     * Clone方法创建对象单元测试
+     * 2.序列化和反序列化测试
+     * 测试结果：
+     * 未序列化之前，user的信息为：User{name='冯宝宝', age=24, birthday=Wed Jun 06 10:37:37 CST 2018, gender='女'}
+     * ----------------------------------------------------------静态成员测试
+     * 反序列化后得到的对象信息:User{name='冯宝宝', age=24, birthday=Wed Jun 06 10:37:37 CST 2018, gender='null'}
+     * ----------------------------------------------------------静态成员测试
+     * gender 是transien修饰的，所以不能序列化，故为null
+     */
+    @Test
+    public void serializableTest() {
+        //initialize the object
+        User user = new User();
+        user.setName("冯宝宝");
+        user.setAge(24);
+        user.setBirthday(new Date());
+        user.setGender("女");
+        System.out.println("未序列化之前，user的信息为：" + user.toString());
+        System.out.println("----------------------------------------------------------" + User.flag);
+        //serializable the object-->write object to file
+        ObjectOutputStream oos = null;
+        try {
+            /**
+             * 将user的信息用序列化的方式写入到内存的临时文件tempFile中
+             */
+            oos = new ObjectOutputStream(new FileOutputStream("tempFile"));
+            oos.writeObject(user);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(oos);
+        }
+
+        //unserializable the object--->read object from file
+        /**
+         * 创建一个名为tempFile的文件。其他名字行吗？？
+         * 不行！
+         * 因为前期FileOutputStream生成内存临时文件时，用的文件描述符（即一种标识）是tempFile，
+         * 要想拿到它里面的字节流数据，则必须用用同样的标识去找、
+         */
+        File file = new File("tempFile");
+        ObjectInputStream ois = null;
+        try {
+            /**
+             * 找到数据流的关键点最终都是落在了文件名 tempFile上
+             */
+            ois = new ObjectInputStream(new FileInputStream(file));
+            User user1 = (User) ois.readObject();
+            System.out.println("反序列化后得到的对象信息:" + user1);
+            System.out.println("----------------------------------------------------------" + User.flag);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                IOUtils.closeQuietly(ois);
+                FileUtils.forceDelete(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 2-1 序列化的自定义-ArrayList
+     * 在ArrayList的源码中，我们知道，其底层是数组实现的
+     * 下面是加入元素的原理---》即往elementData数组中加入元素
+     * public boolean add(E e) {
+     * ensureCapacityInternal(size + 1);  // Increments modCount!!
+     * elementData[size++] = e;
+     * return true;
+     * }
+     * 注意： transient Object[] elementData;
+     * elementData数组是被transient修饰的，则说明：存入该数组的元素不应该被序列化，反序列化输出后应该是元素的原始值，在这里应该是null
+     * (这样限定的目的：用时间换空间---》避免了将null的元素放在内存内，但是要用循环来保证正常元素的持久化，就算元素是空，也会被遍历到)
+     * 测试结果：
+     * init StringList[hello, world, hollis, chuang]
+     * new StringList[hello, world, hollis, chuang]
+     * 反序列化输出的list，其数据是完整的，并非为null。
+     * 这是为什么呢？？
+     * ①：首先要明确，ArrayList在实现上，是作了可序列化的声明的
+     * public class ArrayList<E> extends AbstractList<E>
+     * implements List<E>, RandomAccess, Cloneable, java.io.Serializable
+     * ②：保证其能序列化的要素：writeObject()，readObject()，它俩是其自定义的方法
+     * 在序列化过程中，如果被序列化的类中定义了writeObject 和 readObject 方法，
+     * 虚拟机会试图调用对象类里的 writeObject 和 readObject 方法，进行用户自定义的序列化和反序列化（即序列化过程有用户自行控制）。
+     * 如果没有，才会走default的方法。
+     *
+     */
+    @Test
+    public void serializableArrayListTest() throws IOException, ClassNotFoundException {
+        List<String> stringList = new ArrayList<String>();
+        stringList.add("hello");
+        stringList.add("world");
+        stringList.add("hollis");
+        stringList.add("chuang");
+        System.out.println("init StringList" + stringList);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("stringlist"));
+        objectOutputStream.writeObject(stringList);
+
+        IOUtils.closeQuietly(objectOutputStream);
+        File file = new File("stringlist");
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+        List<String> newStringList = (List<String>) objectInputStream.readObject();
+        IOUtils.closeQuietly(objectInputStream);
+        if (file.exists()) {
+            file.delete();
+        }
+        System.out.println("new StringList" + newStringList);
+    }
+
+    /**
+     * 4.Clone方法创建对象单元测试
      */
     @Test
     public void cloneTest() {
