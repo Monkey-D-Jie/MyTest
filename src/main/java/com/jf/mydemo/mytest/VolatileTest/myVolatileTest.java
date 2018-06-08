@@ -1,4 +1,4 @@
-package com.jf.mydemo.mytest.Thread;
+package com.jf.mydemo.mytest.VolatileTest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +12,6 @@ package com.jf.mydemo.mytest.Thread;
 /**
  * @author: wjie
  * @date: 2018/2/8 0008 11:18
- * volatile - 挥发性; 易挥发的; 挥发
  * 下述内容来自：http://www.importnew.com/18126.html
  * 大家想一下这段程序的输出结果是多少？也许有些朋友认为是10000。但是事实上运行它会发现每次运行结果都不一致，都是一个小于10000的数字。
 可能有的朋友就会有疑问，不对啊，上面是对变量inc进行自增操作，
@@ -38,14 +37,14 @@ package com.jf.mydemo.mytest.Thread;
  *
  */
 
-public class volatileTest {
+public class myVolatileTest {
     public volatile   int inc = 0;
 
     public   void increase() {
         inc++;
     }
     public static void main(String[] args) throws InterruptedException {
-        final volatileTest test = new volatileTest();
+        final myVolatileTest test = new myVolatileTest();
         for(int i=0;i<10;i++){
             new Thread(){
                 @Override
@@ -57,20 +56,18 @@ public class volatileTest {
             }.start();
         }
         Thread.sleep(3000);
-       /* while(Thread.activeCount()>1)  //保证前面的线程都执行完--》不注释的半天都执行不完
+        while(Thread.activeCount()>1)  //保证前面的线程都执行完--》不注释的半天都执行不完
         {
             Thread.yield();
-        }*/
+//            Thread.join();
+        }
         System.out.println(test.inc);
     }
 /**
  * @author: wjie
  * @date: 2018/2/8 0008 11:20*
  * 把上面的代码改成以下任何一种都可以达到效果：
- * */
-/**
- * 采用synchronized：
- *
+采用synchronized：
 public class Test {
 public  int inc = 0;
 
@@ -127,7 +124,7 @@ System.out.println(test.inc);
 采用AtomicInteger：
 
 public class Test {
-public AtomicInteger inc = new AtomicInteger();
+public  AtomicInteger inc = new AtomicInteger();
 
 public  void increase() {
 inc.getAndIncrement();

@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 public class UserInfo implements Serializable{
     private static final long serialVersionUID = 996890129747019948L;
-    private static String name;
+    private  static String name;
     private transient String psw;
 
     public UserInfo(String name, String psw) {
