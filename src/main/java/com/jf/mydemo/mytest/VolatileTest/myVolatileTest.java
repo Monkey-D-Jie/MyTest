@@ -9,6 +9,8 @@ package com.jf.mydemo.mytest.VolatileTest;
  * To change this template use File | Settings | File and Templates.
  */
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @author: wjie
  * @date: 2018/2/8 0008 11:18
@@ -38,10 +40,12 @@ package com.jf.mydemo.mytest.VolatileTest;
  */
 
 public class myVolatileTest {
-    public volatile   int inc = 0;
-
-    public   void increase() {
-        inc++;
+//    public volatile   int inc = 0;
+    public AtomicInteger inc = new AtomicInteger();
+    public synchronized   void increase() {
+//        inc++;
+        inc.getAndIncrement();
+        System.out.println(Thread.currentThread().getName()+"------------>>"+inc);
     }
     public static void main(String[] args) throws InterruptedException {
         final myVolatileTest test = new myVolatileTest();
@@ -52,14 +56,13 @@ public class myVolatileTest {
                     for(int j=0;j<1000;j++) {
                         test.increase();
                     }
-                };
+                }
             }.start();
         }
-        Thread.sleep(3000);
+        System.out.println("Thread.activeCount()----------------->>>"+Thread.activeCount());
         while(Thread.activeCount()>1)  //保证前面的线程都执行完--》不注释的半天都执行不完
         {
             Thread.yield();
-//            Thread.join();
         }
         System.out.println(test.inc);
     }
