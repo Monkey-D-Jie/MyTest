@@ -1,0 +1,11 @@
+来自：
+1）深入理解Java之线程池 - ImportNew
+http://www.importnew.com/19011.html
+关键内容摘录：
+2）聊聊并发（三）Java线程池的分析和使用 | 并发编程网 – ifeve.com
+http://ifeve.com/java-threadpool/
+3）我眼中的java线程池实现原理 - CSDN博客
+  https://blog.csdn.net/hzw19920329/article/details/52372348
+4）
+线程池的简介及四种创建方法 - CSDN博客
+https://blog.csdn.net/Dkangel/article/details/78308694

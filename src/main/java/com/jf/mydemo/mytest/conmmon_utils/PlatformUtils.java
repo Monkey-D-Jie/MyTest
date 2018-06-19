@@ -16,7 +16,7 @@
 // Public License along with JODConverter.  If not, see
 // <http://www.gnu.org/licenses/>.
 //
-package com.jf.mydemo.mytest.utils;
+package com.jf.mydemo.mytest.conmmon_utils;
 
 public class PlatformUtils {
 

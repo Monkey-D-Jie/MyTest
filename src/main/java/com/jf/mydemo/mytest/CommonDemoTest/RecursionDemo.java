@@ -177,7 +177,7 @@ public class RecursionDemo {
      */
     @Test
     public void arrangeTest() {
-        int[] arrange = {1, 2, 3};
+        int[] arrange = {1, 3, 3};
         pai(arrange, 0, arrange.length);
         System.out.println("<<<--------------->>>");
         totalArrange(arrange,0,arrange.length-1);
@@ -186,15 +186,32 @@ public class RecursionDemo {
     /**
      * 自己就着思路写的
      *
-     *
      * ----懵逼中。。。。排列组合这块儿，
      * 先放一放
+     * 参考帖子：
+     *  * 全排列算法的全面解析 - CSDN博客
+     https://blog.csdn.net/lemon_tree12138/article/details/50986990
+     内容摘录：
+     重复的原因当然是因为我们列举了所有位置上的可能性，而没有太多地关注其真实的数值。
+     现在，我们这样来思考一下，如果有一个序列T = {a1, a2, a3, …, ai, … , aj, … , an}。其中，a[i] = a[j]。那么是不是就可以说，在a[i]上，只要进行一次交换就可以了，a[j]可以直接忽略不计了。好了，基于这样一个思路，我们对程序进行一些改进。我们每一次交换递归之前对元素进行检查，如果这个元素在后面还存在数值相同的元素，那么我们就可以跳过进行下一次循环递归（当然你也可以反着来检查某个元素之前是不是相同的元素）。
+     基于这个思路，不难写出改进的代码。
+     另外的参考帖子：
+     1）
+     秒杀排列组合（上）————排列篇 - CSDN博客
+     https://blog.csdn.net/zmazon/article/details/8351611
+     2）
+     秒杀排列组合（下）————组合篇 - CSDN博客
+     https://blog.csdn.net/zmazon/article/details/8315418
      */
     private void totalArrange(int[] n,int cursor,int end) {
         if(cursor == end){
             System.out.println(ArrayUtils.toString(n));
         }else{
             for (int i = cursor; i <= end ; i++) {
+                //考虑元素相同的情况
+                if(!swapAccepted(n,cursor,i)){
+                    continue;
+                }
                 //把数组中的第一个都挪到第一位来（第一个也这样处理）
                 swap(n,i,cursor);
                 //得到cursor后的全排列序列结果，并和第一个组合
@@ -207,10 +224,6 @@ public class RecursionDemo {
 
     /**
      * 产生排列组合的递归写法
-     *
-     * 全排列算法的全面解析 - CSDN博客
-     https://blog.csdn.net/lemon_tree12138/article/details/50986990
-     *
      * @param t 数组
      * @param k 起始排列值
      * @param n 数组长度
@@ -223,6 +236,10 @@ public class RecursionDemo {
             System.out.println();
         } else {
             for (int i = k; i < n; i++) {
+                //考虑元素相同的情况
+                if(!swapAccepted(t,k,i)){
+                    continue;
+                }
                 //一次挑选n个字母中的一个,和前位置替换
                 swap(t, i, k);
                 //再对其余的n-1个字母一次挑选
@@ -239,9 +256,40 @@ public class RecursionDemo {
         t[j] = temp;
     }
 
+    private static boolean swapAccepted(int[] array, int start, int end) {
+        for (int i = start; i < end; i++) {
+            if (array[i] == array[end]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * 5.应用上的-->倒序输出一个正整数
+     * 思路上：通过整除(/)和取余(%)的方式，得到每一位，
+     * 循环调用方法，然后输出，即可
      */
+    @Test
+    public void invertTest(){
+        int number = 987654321;
+        System.out.println("输入的数据为："+number);
+        System.out.println("倒叙输出的结果:");
+        invertInteger(number);
+    }
+
+    private void invertInteger(int number){
+        if(number > 0){
+            int a = number%10;
+            System.out.print(a+" ");
+            a = number/10;
+            if(a != 0){
+                invertInteger(a);
+            }
+        }else{
+            System.out.println("输入的数据"+number+"不合法");
+        }
+    }
 
 
 }
