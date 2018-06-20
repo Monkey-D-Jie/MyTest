@@ -40,7 +40,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 public class myVolatileTest {
-//    public volatile   int inc = 0;
     public AtomicInteger inc = new AtomicInteger();
     public synchronized   void increase() {
 //        inc++;
