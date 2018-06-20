@@ -90,6 +90,7 @@ public class ResourceManage {
 
     public void useResource(int userId){
         try {
+
             /**
              * 获取了可以使用厕所坑位的资格
              */
