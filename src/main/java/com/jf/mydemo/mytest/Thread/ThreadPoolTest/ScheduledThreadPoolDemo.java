@@ -1,8 +1,9 @@
 package com.jf.mydemo.mytest.Thread.ThreadPoolTest;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +25,7 @@ public class ScheduledThreadPoolDemo {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //老方法是这样的---》创建一个大小为2的线程池
        /*ScheduledExecutorService es= Executors.newScheduledThreadPool(2);
        for(int i=0;i<10;i++){
@@ -39,13 +40,16 @@ public class ScheduledThreadPoolDemo {
         //阿里规约创建方法----对于定时线程这块儿并没有太多的建议，至少下面的代码并未达到定时执行的效果
         //是一下子就执行完了的
         //Thread创建工厂
-        ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("Orders-%d").build();
+        /*ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("Orders-%d").build();
         RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(5), threadFactory, handler);
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(5), threadFactory, handler);*/
+        ScheduledExecutorService threadPoolExecutor = new ScheduledThreadPoolExecutor(1,new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build());
+
         for (int i = 0; i < 10; i++) {
             ScheduledThreadDemo st = new ScheduledThreadDemo();
             threadPoolExecutor.execute(st);
         }
+        Thread.sleep(2000);
         threadPoolExecutor.shutdown();
     }
 }
