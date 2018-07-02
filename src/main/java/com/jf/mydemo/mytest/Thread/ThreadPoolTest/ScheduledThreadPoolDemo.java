@@ -49,6 +49,7 @@ public class ScheduledThreadPoolDemo {
             ScheduledThreadDemo st = new ScheduledThreadDemo();
             threadPoolExecutor.execute(st);
         }
+        //不用这个的，它一会儿就执行完了，你甚至都看不到结果
         Thread.sleep(2000);
         threadPoolExecutor.shutdown();
     }
