@@ -46,6 +46,9 @@ public class myVolatileTest {
         inc.getAndIncrement();
         System.out.println(Thread.currentThread().getName()+"------------>>"+inc);
     }
+
+
+
     public static void main(String[] args) throws InterruptedException {
         final myVolatileTest test = new myVolatileTest();
         for(int i=0;i<10;i++){
