@@ -1,4 +1,4 @@
-package com.jf.mydemo.mytest.Thread;
+package com.jf.mydemo.mytest.Thread.ThreadPoolTest;
 
 /**
  * Created with IntelliJ IDEA.

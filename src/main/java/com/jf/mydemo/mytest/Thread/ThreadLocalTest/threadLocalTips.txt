@@ -1,0 +1,24 @@
+关于ThreadLocal
+参阅帖子：
+1）ThreadLocal工作原理 - ImportNew
+http://www.importnew.com/20963.html
+2）深入浅出ThreadLocal - ImportNew
+http://www.importnew.com/21479.html
+3）Java并发编程：深入剖析ThreadLocal - ImportNew
+http://www.importnew.com/17849.html#comment-658405
+
+---我的理解：
+①：ThreadLocal 是用来应对线程不安全场景下，不想用同步(synchronized)的方法来解决 全局/局部变量，但仍要保证它们 线程安全性 的一个处理辅助类；
+②：主要方法 ：set(定终身-决定属于哪一个线程)，initValue（初识之样-初始值），get（从一而终--我只要你），remove(对不起-离婚！分手)。
+支持用泛型（套路，都是套路）的方式定义放置在其中的参数；
+③：白话来说
+ThreadLocal 对象 T
+线程会维护threadLocals对象(ThreadLocalMap实例相当于线程的局部变量空间)，同ThreadLocal关联，属于线程内部的一个固有属性，只是在遇到ThreadLocal的时候，它会被激活、
+线程A  访问了T ，并调用set()设置了一个值A（最终是存放在了entry中---Entry继承自WeakReference类，是存储线程私有变量的数据结构）。这个set设置的值实质上是把 以 【key：线程A的ThreadLocals对象，value：A】的形式，将A存在其本身的ThreaLocals.threadLocalMap对象中。线程A在其他地方使用A值的时候，调用get()方法就能获得A值。如果不调用set()方法，且线程A不过被灭掉，则A值将一直为同一个值。（要改的时候，就得用set。这样的话，其他的地方用get()获取到的就是新值了）
+线程B 同上，如果访问T，设置A。这个A也只能算是它自己的A，跟线程A的A没有一点关系。
+线程C 同上
+白话疑问：
+1）设置值的时候，value值A到底是搁哪儿了？搁ThreadLocal对象内存里还是当前线程的内存里咯？
+回答：value的值是在放在线程Thread的ThreadLocalMap对象中；是在当前线程的私有内存中。
+2）设置的这个值是怎么生效的？可以变动吗？
+回答：一旦线程去访问到ThreadLocal对象，不管是调用了get还是set，在其内部都会对线程本身【Thread.threadLocals】属性作初始化。在调用set()方法后，才会生成一个ThreadLcoalMap对象---有值可取（通过重写initValue方法也能达到这个效果）。如果不用set，而直接用get，很大可能上回抛出NullPointer的异常。
