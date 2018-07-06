@@ -8,7 +8,7 @@ http://www.importnew.com/21479.html
 http://www.importnew.com/17849.html#comment-658405
 
 ---我的理解：
-①：ThreadLocal 是用来应对线程不安全场景下，不想用同步(synchronized)的方法来解决 全局/局部变量，但仍要保证它们 线程安全性 的一个处理辅助类；
+①：ThreadLocal 是用来应对线程不安全场景下，不想用同步(synchronized)的方法来解决 全局/局部变量，但仍要保证它们 线程安全性 的一个处理辅助类-即一种伪同步；
 ②：主要方法 ：set(定终身-决定属于哪一个线程)，initValue（初识之样-初始值），get（从一而终--我只要你），remove(对不起-离婚！分手)。
 支持用泛型（套路，都是套路）的方式定义放置在其中的参数；
 ③：白话来说
@@ -21,4 +21,4 @@ ThreadLocal 对象 T
 1）设置值的时候，value值A到底是搁哪儿了？搁ThreadLocal对象内存里还是当前线程的内存里咯？
 回答：value的值是在放在线程Thread的ThreadLocalMap对象中；是在当前线程的私有内存中。
 2）设置的这个值是怎么生效的？可以变动吗？
-回答：一旦线程去访问到ThreadLocal对象，不管是调用了get还是set，在其内部都会对线程本身【Thread.threadLocals】属性作初始化。在调用set()方法后，才会生成一个ThreadLcoalMap对象---有值可取（通过重写initValue方法也能达到这个效果）。如果不用set，而直接用get，很大可能上回抛出NullPointer的异常。
+回答：一旦线程去访问到ThreadLocal对象，不管是调用了get还是set，在其内部都会对线程本身【Thread.threadLocals】属性作初始化。在调用set()方法后，才会生成一个ThreadLcoalMap对象---有值可取（通过重写initValue方法也能达到这个效果）。如果不用set，而直接用get，很大可能上会抛出NullPointer的异常。
