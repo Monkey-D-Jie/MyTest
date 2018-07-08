@@ -32,6 +32,7 @@ public class myFileTest {
         }else{
             System.out.println("用new的方式并没有创建的有文件");
         }
+
         System.out.println(file.getAbsolutePath());
     }
 }
