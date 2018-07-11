@@ -1,4 +1,4 @@
-package com.jf.mydemo.mytest.YeildThreadTest;
+package com.jf.mydemo.mytest.Thread.YeildThreadTest;
 
 
 

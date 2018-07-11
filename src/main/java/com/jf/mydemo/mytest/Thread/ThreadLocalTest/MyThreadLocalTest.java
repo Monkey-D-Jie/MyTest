@@ -5,8 +5,8 @@ package com.jf.mydemo.mytest.Thread.ThreadLocalTest;
  *
  * @Author: Wangjie
  * @Date: 2018-07-06 15:07
- * @Description: ThreadLocalçš„ä»£ç demoæµ‹è¯•
- * æ¥è‡ªï¼š
+ * @Description: ThreadLocalµÄ´úÂëdemo²âÊÔ
+ * À´×Ô£º
  * To change this template use File | Settings | File and Templates.
  */
 
@@ -14,10 +14,11 @@ public class MyThreadLocalTest {
 
     ThreadLocal<Long> longThreadLocal = new ThreadLocal<Long>();
     ThreadLocal<String> stringThreaLocal = new ThreadLocal<String>();
-
     private void init(){
-        this.longThreadLocal.set(Thread.currentThread().getId());
-        this.stringThreaLocal.set(Thread.currentThread().getName());
+        //    Thread.currentThread().getId()
+        this.longThreadLocal.set((long)2);
+        //Thread.currentThread().getName()
+        this.stringThreaLocal.set("test");
     }
 
     private Long getLong(){
@@ -30,53 +31,53 @@ public class MyThreadLocalTest {
 
     public static void main(String[] args) {
         final MyThreadLocalTest test = new MyThreadLocalTest();
-        //ä¸»çº¿ç¨‹ä¸­
+        //Ö÷Ïß³ÌÖĞ
         test.init();
-        System.out.println("*****ä¸»çº¿ç¨‹ä¸­æ‰“å°*****");
+        System.out.println("*****Ö÷Ïß³ÌÖĞ´òÓ¡*****");
         System.out.println(test.getLong());
         System.out.println(test.getString());
 
-        //åœ¨å…¶ä»–çº¿ç¨‹ä¸­ä½œæ“ä½œ
+        //ÔÚÆäËûÏß³ÌÖĞ×÷²Ù×÷
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 /**
-                 * åªè¦æ˜¯åœ¨çº¿ç¨‹ä¸­è°ƒç”¨äº†setæ–¹æ³•ï¼Œåˆ™å¯¹åº”çš„initæ–¹æ³•ä¸­è®¾ç½®çš„å€¼å°±æ˜¯å½“å‰çº¿ç¨‹threadçš„
-                 * ä¸å…‰æ˜¯setæ–¹æ³•ï¼Œgetæ–¹æ³•ä¹Ÿæ˜¯å¦‚æ­¤ã€‚
-                 * è¿™é‡Œè°ƒç”¨getæ–¹æ³•ä¹Ÿæ˜¯å±äºå½“å‰çº¿ç¨‹è€Œå®šï¼Œå’Œä¸»çº¿çº¿ç¨‹æ²¡æœ‰å…³ç³»ã€‚
-                 * æ³¨é‡Šåçš„æ‰“å°ç»“æœ----
+                 * Ö»ÒªÊÇÔÚÏß³ÌÖĞµ÷ÓÃÁËset·½·¨£¬Ôò¶ÔÓ¦µÄinit·½·¨ÖĞÉèÖÃµÄÖµ¾ÍÊÇµ±Ç°Ïß³ÌthreadµÄ
+                 * ²»¹âÊÇset·½·¨£¬get·½·¨Ò²ÊÇÈç´Ë¡£
+                 * ÕâÀïµ÷ÓÃget·½·¨Ò²ÊÇÊôÓÚµ±Ç°Ïß³Ì¶ø¶¨£¬ºÍÖ÷ÏßÏß³ÌÃ»ÓĞ¹ØÏµ¡£
+                 * ×¢ÊÍºóµÄ´òÓ¡½á¹û----
                  *
-                 *****ä¸»çº¿ç¨‹ä¸­æ‰“å°*****
+                 *****Ö÷Ïß³ÌÖĞ´òÓ¡*****
                  1
                  main
-                 *****ä¸»çº¿ç¨‹ä¸­æ‰“å°-ç¬¬äºŒæ¬¡*****
+                 *****Ö÷Ïß³ÌÖĞ´òÓ¡-µÚ¶ş´Î*****
                  1
                  main
-                 *****thread1çº¿ç¨‹ä¸­æ‰“å°*****
+                 *****thread1Ïß³ÌÖĞ´òÓ¡*****
                  null
                  null
 
                  */
                 test.init();
                 /**
-                 * æœªæ³¨é‡Šæ—¶çš„æ‰“å°ç»“æœ
-                 ******ä¸»çº¿ç¨‹ä¸­æ‰“å°*****
+                 * Î´×¢ÊÍÊ±µÄ´òÓ¡½á¹û
+                 ******Ö÷Ïß³ÌÖĞ´òÓ¡*****
                  1
                  main
-                 *****ä¸»çº¿ç¨‹ä¸­æ‰“å°-ç¬¬äºŒæ¬¡*****
+                 *****Ö÷Ïß³ÌÖĞ´òÓ¡-µÚ¶ş´Î*****
                  1
                  main
-                 *****thread1çº¿ç¨‹ä¸­æ‰“å°*****
+                 *****thread1Ïß³ÌÖĞ´òÓ¡*****
                  11
                  Thread-0
                  */
-                System.out.println("*****thread1çº¿ç¨‹ä¸­æ‰“å°*****");
+                System.out.println("*****thread1Ïß³ÌÖĞ´òÓ¡*****");
                 System.out.println(test.getLong());
                 System.out.println(test.getString());
             }
         });
         thread.start();
-        System.out.println("*****ä¸»çº¿ç¨‹ä¸­æ‰“å°-ç¬¬äºŒæ¬¡*****");
+        System.out.println("*****Ö÷Ïß³ÌÖĞ´òÓ¡-µÚ¶ş´Î*****");
         System.out.println(test.getLong());
         System.out.println(test.getString());
     }

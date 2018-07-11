@@ -1,4 +1,4 @@
-package com.jf.mydemo.mytest.YeildThreadTest;
+package com.jf.mydemo.mytest.Thread.YeildThreadTest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,11 +9,11 @@ package com.jf.mydemo.mytest.YeildThreadTest;
  * To change this template use File | Settings | File and Templates.
  */
 
-public class Producer extends Thread {
+public class Consumer extends Thread {
     @Override
     public void run() {
         for (int i = 0; i < 5; i++) {
-            System.out.println("I am Producer : Produced Item " + i);
+            System.out.println("I am Consumer : Consumed Item " + i);
             Thread.yield();
         }
         System.out.println("---------------------------------");

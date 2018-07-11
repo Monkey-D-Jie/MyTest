@@ -1,4 +1,4 @@
-package com.jf.mydemo.mytest.VolatileTest;
+package com.jf.mydemo.mytest.Thread.VolatileTest;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;

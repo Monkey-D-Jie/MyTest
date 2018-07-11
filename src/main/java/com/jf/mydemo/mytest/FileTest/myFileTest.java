@@ -25,8 +25,8 @@ public class myFileTest {
             System.out.println("当前系统不是windows噢");
         }
         System.out.println(System.getProperty("os.name").toLowerCase().replace(" ","").contains(""));
-        File file = new File("E:\\Users\\转码文件测试\\2吴总\\wu-大转码文件6.docx");
-        File file2 = new File("E:\\Users\\转码文件测试\\2吴总\\wu-大转码文件6.pdf");
+        File file = new File("E://Users//转码文件测试//2吴总//wu-大转码文件6.docx");
+        File file2 = new File("E://Users//转码文件测试//2吴总//wu-大转码文件6.pdf");
         if(file2.exists()){
             System.out.println("file2文件创建成功");
         }else{
