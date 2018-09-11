@@ -10,6 +10,7 @@ public class LockTest implements Runnable {
         this.init = init;
     }
 
+    @Override
     public void run() {
         if (init){
             while(true){

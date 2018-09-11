@@ -1,6 +1,7 @@
 package com.jf.mydemo.mytest.Thread.VolatileTest;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 /**
@@ -17,9 +18,10 @@ public class ThreadLocalTest {
 
     private static ThreadLocal<Integer> threadLocal = new ThreadLocal<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        System.out.println(threadLocal.hashCode());
         threadLocal.set(111);
-
+        threadLocal = null;
         FutureTask<Integer> result1 = new FutureTask<Integer>(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
@@ -45,5 +47,6 @@ public class ThreadLocalTest {
         });
         result1.run();
         result2.run();
+        result2.get();
     }
 }
