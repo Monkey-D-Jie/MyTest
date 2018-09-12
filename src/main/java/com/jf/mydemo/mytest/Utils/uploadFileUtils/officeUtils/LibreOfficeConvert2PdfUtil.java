@@ -1,8 +1,8 @@
 package com.jf.mydemo.mytest.Utils.uploadFileUtils.officeUtils;
 
-import com.jf.erm1000.exception.ServiceException;
-import com.jf.erm1000.util.cloudUtils.CloudFileUtil;
-import com.jf.erm1000.util.officeUtils.txtFiledeDecodeUtil.EncodingDetect;
+import com.jf.mydemo.mytest.Utils.uploadFileUtils.cloudUtils.CloudFileUtil;
+import com.jf.mydemo.mytest.Utils.uploadFileUtils.exception.ServiceException;
+import com.jf.mydemo.mytest.Utils.uploadFileUtils.officeUtils.txtFiledeDecodeUtil.EncodingDetect;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.artofsolving.jodconverter.OfficeDocumentConverter;

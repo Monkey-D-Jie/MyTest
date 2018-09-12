@@ -24,6 +24,7 @@ public class NumberFormatUtil {
      * @Description: bigDecimalFormat格式化数据
      * @param  number   需要格式化的数据
      * @Return  java.lang.Object 格式化的结果
+     * tip:数据量大的情况下，这个方法的效率最高
      * 测试结果：bigDecimalFormat--->>>111231.56
      */
     public static Object bigDecimalFormat(Object number) {
