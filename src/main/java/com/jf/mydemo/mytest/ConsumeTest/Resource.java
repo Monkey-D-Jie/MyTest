@@ -1,4 +1,4 @@
-package com.jf.mydemo.mytest;
+package com.jf.mydemo.mytest.ConsumeTest;
 
 import com.jf.mydemo.mytest.ObjectTest.Serializable.User;
 

@@ -128,7 +128,7 @@ public class myFileTest {
             while(-1 != (len = in.read(buffer,0,buf_size))){
                 bos.write(buffer,0,len);
             }
-            System.out.println("toByteArray**************"+bos.toByteArray().length);
+            System.out.println("toByteArray3**************"+bos.toByteArray().length);
             return bos.toByteArray();
         }catch (IOException e) {
             e.printStackTrace();
