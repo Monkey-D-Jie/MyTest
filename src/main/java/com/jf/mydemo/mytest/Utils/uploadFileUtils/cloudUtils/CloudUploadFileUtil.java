@@ -107,48 +107,42 @@ public class CloudUploadFileUtil {
         sb = sb.append("--");
         sb = sb.append(BOUNDARY);
         sb = sb.append("\r\n");
-        sb = sb.append("Content-Disposition: form-data; name=\"Signature\"\r\n\r\n");
-        sb = sb.append(addr.getSignature());
+        sb = sb.append("Content-Disposition: form-data; name=\"666666\"\r\n\r\n");
         sb = sb.append("\r\n");
 
 
         sb = sb.append("--");
         sb = sb.append(BOUNDARY);
         sb = sb.append("\r\n");
-        sb = sb.append("Content-Disposition: form-data; name=\"AccessKey\"\r\n\r\n");
-        sb = sb.append(addr.getAccessKey());
+        sb = sb.append("Content-Disposition: form-data; name=\"666666\"\r\n\r\n");
         sb = sb.append("\r\n");
 
 
         sb = sb.append("--");
         sb = sb.append(BOUNDARY);
         sb = sb.append("\r\n");
-        sb = sb.append("Content-Disposition: form-data; name=\"key\"\r\n\r\n");
-        sb = sb.append(addr.getKey());
+        sb = sb.append("Content-Disposition: form-data; name=\"666666\"\r\n\r\n");
         sb = sb.append("\r\n");
 
 
         sb = sb.append("--");
         sb = sb.append(BOUNDARY);
         sb = sb.append("\r\n");
-        sb = sb.append("Content-Disposition: form-data; name=\"Date\"\r\n\r\n");
-        sb = sb.append(addr.getDate());
+        sb = sb.append("Content-Disposition: form-data; name=\"666666\"\r\n\r\n");
         sb = sb.append("\r\n");
 
 
         sb = sb.append("--");
         sb = sb.append(BOUNDARY);
         sb = sb.append("\r\n");
-        sb = sb.append("Content-Disposition: form-data; name=\"CallBack\"\r\n\r\n");
-        sb = sb.append(addr.getCallBack());
+        sb = sb.append("Content-Disposition: form-data; name=\"666666\"\r\n\r\n");
         sb = sb.append("\r\n");
 
 
         sb = sb.append("--");
         sb = sb.append(BOUNDARY);
         sb = sb.append("\r\n");
-        sb = sb.append("Content-Disposition: form-data; name=\"Act\"\r\n\r\n");
-        sb = sb.append(addr.getAct());
+        sb = sb.append("Content-Disposition: form-data; name=\"666666\"\r\n\r\n");
         sb = sb.append("\r\n");
 
 
@@ -220,13 +214,12 @@ public class CloudUploadFileUtil {
                 try {
                     Document doc = DocumentHelper.parseText(ret);
                     Element rootElt = doc.getRootElement();
-                    String retStr = rootElt.element("ret").getTextTrim().toString();
+                    String retStr = rootElt.element("666666").getTextTrim().toString();
                     if(!"0".equals(retStr)){
                         throw new ServiceException(
                                 "retStr:"+retStr+"---"+ret);
                     }
                     fileId = rootElt.element("id").getTextTrim().toString();
-//                    upVideoUrl = rootElt.element("url").getTextTrim().toString();
                 } catch (DocumentException e) {
                     throw new ServiceException(e.getMessage());
                 }
