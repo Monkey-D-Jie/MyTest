@@ -11,8 +11,6 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,21 +43,47 @@ public class myFileTest {
         System.out.println(file.getAbsolutePath());
     }
     @Test
-    public void nameLength(){
-        File[] roots = File.listRoots();
-        List<String> list = new ArrayList<>(roots.length);
-        for (int i = 0; i < roots.length; i++) {
-            System.out.println(roots[i].toString()+":"+roots[i].getFreeSpace());
-            list.add(roots[i].toString());
-        }
+    public void nameLength() throws IOException {
+//        String str = "C:/jf_exwsp/file";
+//        File[] roots = File.listRoots();
+//        List<String> list = new ArrayList<>(roots.length);
+//        for (int i = 0; i < roots.length; i++) {
+//            String disk = roots[i].toString().replace("\\","");
+//            System.out.println("**********************"+disk);
+//            if(str.startsWith(disk)){
+//                list.add(roots[i].toString());
+//                list.add(""+roots[i].getFreeSpace());
+//                break;
+//            }
+//        }
+//        +":"+roots[i].getFreeSpace()
+//        List<String> delFolderIds = new ArrayList<>();
+//        delFolderIds.add("np666_13814");
+//        delFolderIds.add("np666_15140");
+//        delFolderIds.add("np666_15406");
+//        StringBuffer sb = new StringBuffer();
+//        for (String id:delFolderIds
+//                ) {
+//            sb.append(id+"|");
+//        }
+//        System.out.println(sb.toString().substring(0,sb.length()-1));
+//        String JF_EXWSP_UPLOAD_DIR="E:/Users";
+//        System.out.println(System.getProperty("file.separator"));
+//        File file = new File(JF_EXWSP_UPLOAD_DIR+File.separator+"test.txt");
+//        if(!file.exists()){
+//            file.createNewFile();
+//        }
+        System.out.println("$,86.32,".substring(2));
+
     }
     @Test
     public void fileTypeTest(){
+//        String filePath ="E:\\Users\\jpeg图片测试";
         String filePath ="E:\\Users\\uploadTestFiles\\gif";
         File file = new File(filePath);
         if(file.isDirectory()){
             File[] files = file.listFiles();
-            for (int i = 0; i < files.length; i++) {
+            for (int i = 1000; i < files.length-1000; i++) {
                 System.out.println("*******************"+(i+1)+"**********************");
                 System.out.println("方法判断结果"+CloudFileUtil.isSurportedAndLegalFile(files[i].getName(),files[i]));
                 if(!CloudFileUtil.isSurportedAndLegalFile(files[i].getName(),files[i])){
@@ -71,9 +95,9 @@ public class myFileTest {
     }
     @Test
     public void creatFile() throws Exception {
-        File file = new File("E:\\Users\\myVideo\\录播资源-新的开始-myVideo-20多M.mp4");
-        toByteArray3(file);
-        System.out.println("文件"+file.getName()+"的大小为:"+file.length());
+//        File file = new File("E:\\Users\\imageing-test.jpeg");
+//        System.out.println("方法判断结果"+CloudFileUtil.isSurportedAndLegalFile(file.getName(),file));
+        System.out.println("乱码打印测试");
     }
 
     /**

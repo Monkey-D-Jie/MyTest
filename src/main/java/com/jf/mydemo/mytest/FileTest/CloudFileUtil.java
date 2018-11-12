@@ -301,17 +301,44 @@ public class CloudFileUtil {
                         Integer imageType = getResFileTypeId(fileName);
                         //如果是图片，则直接判断
                         if (imageType == 1) {
-                            int width;
-                            int height;
+                            int width = 0;
+                            int height = 0;
+                            Exception parseException = null;
                             try {
                                 BufferedImage bufreader = ImageIO.read(file);
-                                width = bufreader.getWidth();
-                                height = bufreader.getHeight();
-                            } catch (Exception e) {
-                                //如果出现4096读取gif文件4096读取问题的，则用gifCoder来判断
-                               GifDecoder.GifImage gif = GifDecoder.read(getBytes(file));
-                                width = gif.getWidth();
-                                height = gif.getHeight();
+                                if(bufreader == null){
+                                    //可能会存在 明明是图片，但ImageIO读出来却是null的情况
+                                    FileInputStream inputStream = new FileInputStream(file);
+                                    String header = getFileHeader(inputStream);
+                                    MAGIC_NUBER_HEADER magicNumerType = getImageNumerType(header);
+                                    if (magicNumerType != null) {
+                                        flag = true;
+                                        return flag;
+                                    }
+                                }else{
+                                    width = bufreader.getWidth();
+                                    height = bufreader.getHeight();
+                                }
+                            } catch (Exception imageException) {
+                                System.out.println("解析普通图片时出现错误--->>>"+imageException.getMessage());
+                                try {
+                                    //如果出现4096读取gif文件4096读取问题的，则用gifCoder来判断
+//                                    if("gif".equals(extension)){
+                                        GifDecoder.GifImage gif = GifDecoder.read(getBytes(file));
+                                        if(gif == null){
+                                            parseException  = imageException;
+                                        }else{
+                                            width = gif.getWidth();
+                                            height = gif.getHeight();
+                                        }
+                                } catch (Exception gifException) {
+                                    System.out.println("解析gif图片时出现错误--->>>"+gifException.getMessage());
+                                    parseException = gifException;
+                                }
+                            }finally {
+                                if(parseException != null){
+                                    throw new ServiceException("图片文件解析失败:"+parseException.getMessage());
+                                }
                             }
                             if (width == 0 || height == 0) {
                                 flag = false;

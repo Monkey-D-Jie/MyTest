@@ -1,10 +1,12 @@
 package com.jf.mydemo.mytest.Utils.pdf;
 
+import com.jf.mydemo.mytest.Utils.util.FileUtils;
+import com.jf.mydemo.mytest.Utils.util.SiteUrl;
+
 import java.io.File;
 import java.io.IOException;
 
-import com.yun.util.FileUtils;
-import com.yun.util.SiteUrl;
+
 
 public class SWFToolsSWFConverter implements SWFConverter{
 
