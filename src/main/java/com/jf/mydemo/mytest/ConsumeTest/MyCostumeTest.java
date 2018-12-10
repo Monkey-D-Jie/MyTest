@@ -19,9 +19,11 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import javax.imageio.ImageIO;
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.
@@ -66,6 +68,13 @@ public class MyCostumeTest {
         System.out.println("(n << 1) - (n >>> 1)的值为:" + result);
         String OS_NAME = System.getProperty("os.name").toLowerCase();
         System.out.println(OS_NAME);
+    }
+    @Test
+    public void binaryTest(){
+        String s1 = "0b"+"1000";
+        String s2 = "0111";
+        String s3 = "0101";
+        System.out.println("s1:"+0b1000);
     }
 
     public class MyTask extends TimerTask {
@@ -300,10 +309,10 @@ public class MyCostumeTest {
 
     @Test
     public void dateTest(){
-//        System.out.println(getWeekDate(new Date("2018"),1,18,DateFormatKit.DATE_FORMAT_THREE));
-        String isSurport = "mp43";
-        Integer resFileTypeId = Integer.parseInt(isSurport.substring(isSurport.length()-1));
-        System.out.println(resFileTypeId);
+        String[] rf = ImageIO.getReaderFormatNames();
+        for (int i = 0; i < rf.length; i++) {
+            System.out.println(rf[i]);
+        }
     }
 
     @Test
@@ -311,18 +320,26 @@ public class MyCostumeTest {
         List<Resource> list1 = new ArrayList<>();
         List<Resource> list2 = new ArrayList<>();
         Resource resource3 = new Resource();
-        resource3.setResourceId("123");
-        resource3.setResName("test6666");
+        resource3.setResourceId("789");
+        resource3.setResName("test333333");
+        Resource resource4 = new Resource();
+        resource4.setResourceId("123");
+        resource4.setResName("test6666");
         Resource resource = new Resource();
         resource.setResourceId("123");
-        resource.setResName("test");
+        resource.setResName("test111111");
         Resource resource2 = new Resource();
         resource2.setResourceId("456");
-        resource2.setResName("test2");
+        resource2.setResName("test222222");
         list1.add(resource);
         list1.add(resource2);
+        list1.add(resource3);
+        list1.add(resource);
+//        list1.add(resource4);
         System.out.println("list1 删前"+list1.toString());
-        list2.add(resource3);
+        list1 = list1.stream().distinct().collect(Collectors.toList());
+        System.out.println("llist3"+list1.toString());
+        list2.add(resource);
         System.out.println("list2"+list2.toString());
         list1.removeAll(list2);
         System.out.println("list1 删后"+list1.toString());
@@ -330,7 +347,7 @@ public class MyCostumeTest {
 
     @Test
     public void checkTypeOfFile() throws IOException, TikaException, SAXException {
-        File file = new File("E:\\Users\\上传的文件\\我的部分-视频上传文件.mp4");
+        File file = new File("E://Users//上传的文件//我的部分-视频上传文件.mp4");
         File file2 = new File("E:\\Users\\openOffice\\2Pdf\\test-word.docx");
         AutoDetectParser parser = new AutoDetectParser();
         parser.setParsers(new HashMap<>());
@@ -346,7 +363,26 @@ public class MyCostumeTest {
     }
     @Test
     public void sizeTest(){
-        System.out.println();
+        System.out.println(getMaxDriver());
+        System.out.println(System.getenv("SystemDrive"));
+    }
+
+    public static String getMaxDriver() {
+        String maxDriver;
+        // 当前文件系统类
+        // 列出所有windows 磁盘
+        File[] fs = File.listRoots();
+        Map<String, Long> map = new HashMap<>(fs.length);
+        // 显示磁盘卷标
+        for (int i = 0; i < fs.length; i++) {
+            map.put(fs[i].toString(), fs[i].getFreeSpace());
+        }
+        //对map排序
+        List<Map.Entry<String, Long>> list2 = new ArrayList<>();
+        list2.addAll(map.entrySet());
+        Collections.sort(list2, Comparator.comparingLong(Map.Entry::getValue));
+        maxDriver = (list2.get(list2.size()-1).getKey()).replace("\\","");
+        return maxDriver;
     }
 }
 

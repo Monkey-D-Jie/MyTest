@@ -16,7 +16,7 @@ import java.util.concurrent.Callable;
 public class  Task<T> implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
-        System.out.println("callable 计算中");
+        System.out.println("task执行中-callable 计算中");
         Thread.sleep(3000);
         int sum = 0;
         for(int i=0;i<100;i++)

@@ -7,6 +7,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,8 +19,6 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +31,11 @@ import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class CloudFileUtil {
 
+    /**
+     * 打印日志用logger-用debug级别
+     *
+     */
+    private static Logger LOGGER = LoggerFactory.getLogger(CloudFileUtil.class.getName());
 
     /**
      * 文档类型文件信息
@@ -61,6 +66,8 @@ public class CloudFileUtil {
      * 文件名长度限制
      */
     public static final Integer FILE_NAME_MAX_LENGTH = 128;
+
+    private  static final  long FILE_LIMIT =  10*1024*1000;
 
     /**
      * 文件后缀名不能为
@@ -305,7 +312,11 @@ public class CloudFileUtil {
                             int height = 0;
                             Exception parseException = null;
                             try {
-                                BufferedImage bufreader = ImageIO.read(file);
+                                boolean isbigImgFile = file.length() >FILE_LIMIT ;
+                                BufferedImage bufreader =null;
+                                if(!isbigImgFile){
+                                     bufreader = ImageIO.read(file);
+                                }
                                 if(bufreader == null){
                                     //可能会存在 明明是图片，但ImageIO读出来却是null的情况
                                     FileInputStream inputStream = new FileInputStream(file);
@@ -345,6 +356,21 @@ public class CloudFileUtil {
                             } else {
                                 flag = true;
                             }
+//                            String mimetype = Files.probeContentType(file.toPath());
+//mimetype should be something like "image/png"
+
+//                            if (mimetype != null && mimetype.split("/")[0].equals("image")) {
+//                                System.out.println("it is an image");
+//                            }
+//                            String mimetype = Files.probeContentType(file.toPath());
+//                            String type = mimetype.split("/")[0];
+//                            if(type.equals("image")) {
+//                                System.out.println("************-----------------------当前文件【"+file.getName()+"】"+"为图片文件----------------------************");
+//                                flag = true;
+//                            } else {
+//                                System.out.println("It's NOT an image");
+//                                flag = false;
+//                            }
                             return flag;
                         } else {
                             FileInputStream inputStream = new FileInputStream(file);

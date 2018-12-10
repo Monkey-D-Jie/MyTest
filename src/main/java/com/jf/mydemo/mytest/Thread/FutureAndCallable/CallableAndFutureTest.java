@@ -21,16 +21,13 @@ public class CallableAndFutureTest {
         Future<?> future2 = executorService.submit(new Runnable() {
             @Override
             public void run() {
-                System.out.println("future2---");
+                System.out.println("future2---执行中");
             }
         });
 
 
 //        FutureTask<Integer> futureTask = new FutureTask(task);
 //        executorService.submit(futureTask);
-        /**
-         * 上述两个future的执行结果是一样的，并没有什么区别
-         */
         try{
             //do something
             Thread.sleep(1000);
