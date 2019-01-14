@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" defaultCharsetForPropertiesFiles="GBK">
-    <file url="file://$PROJECT_DIR$/src/main/java/com/jf/mydemo/mytest/Thread/ThreadLocalTest/MyThreadLocalTest.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/jf/mydemo/mytest/Thread/ThreadTest.java" charset="GBK" />
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jf/mydemo/mytest/ConsumeTest/MyCostumeTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jf/mydemo/mytest/FileTest/myFileTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jf/mydemo/mytest/Thread/FutureAndCallable/Task.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jf/mydemo/mytest/Thread/ThreadLocalTest/MyThreadLocalTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jf/mydemo/mytest/Thread/ThreadTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jf/mydemo/mytest/Utils/html/HtmlRegexpUtil.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

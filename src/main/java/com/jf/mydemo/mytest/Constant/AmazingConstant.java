@@ -1,4 +1,4 @@
-package com.jf.mydemo.mytest.constant;
+package com.jf.mydemo.mytest.Constant;
 
 /**
  * Created with IntelliJ IDEA.

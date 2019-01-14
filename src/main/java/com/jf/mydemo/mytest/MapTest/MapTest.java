@@ -2,8 +2,7 @@ package com.jf.mydemo.mytest.MapTest;
 
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,5 +54,22 @@ public class MapTest {
         System.out.println("0011111".hashCode() & 15);
         System.out.println("0111111".hashCode() & 15);
         System.out.println("1111111".hashCode() & 15);
+    }
+    @Test
+    public void treeAndLinkedMap(){
+        Integer a = 12;
+        Integer b = 13;
+        Integer c = 14;
+        Map<String,Object> m1 = new TreeMap<>();
+        Map<String,Object> m2 = new LinkedHashMap<>();
+        m1.put("a",a);
+        m1.put("c",c);
+        m1.put("b",b);
+
+        m2.put("a",a);
+        m2.put("c",c);
+        m2.put("b",b);
+        System.out.println("m1:"+m1.toString());
+        System.out.println("m2:"+m2.toString());
     }
 }
