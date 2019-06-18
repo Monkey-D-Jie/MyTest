@@ -35,7 +35,7 @@ public class ThreadPoolExecutorTest {
         //注意：并没有指定阻塞队列的大小
 //        ThreadPoolExecutor executor = new ThreadPoolExecutor(6, 10, 5, TimeUnit.SECONDS, new SynchronousQueue<>(),threadFactory);
         //①-1：更改线程池的大小上限为 8
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(6, 8, 5, TimeUnit.SECONDS, new SynchronousQueue<>(),threadFactory);
+//        ThreadPoolExecutor executor = new ThreadPoolExecutor(6, 20, 5, TimeUnit.SECONDS, new SynchronousQueue<>(),threadFactory);
         /**
          * ②：LinkedBlockingDeque 链表型双队列
          *  它跟 LinkedBlockingQueue的区别？
@@ -44,7 +44,7 @@ public class ThreadPoolExecutorTest {
          */
 //        ThreadPoolExecutor executor = new ThreadPoolExecutor(6, 8, 5, TimeUnit.SECONDS, new LinkedBlockingDeque<>(),threadFactory);
         //③：ArrayBlockingQueue
-//        ThreadPoolExecutor executor = new ThreadPoolExecutor(6, 8, 5, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2),threadFactory);
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(6, 8, 5, TimeUnit.SECONDS, new ArrayBlockingQueue<>(4),threadFactory);
         long start = System.currentTimeMillis();
         System.out.print("最大线程数：" + executor.getMaximumPoolSize()+" ");
         System.out.println();
@@ -67,8 +67,8 @@ public class ThreadPoolExecutorTest {
         System.out.println("队列任务数：" + executor.getQueue().size()+" ");
         executor.execute(myRunnable);
         executor.execute(myRunnable);
-//        executor.execute(myRunnable);
-//        executor.execute(myRunnable);
+        executor.execute(myRunnable);
+        executor.execute(myRunnable);
         System.out.println();
         System.out.println("---继续再开三个---");
         System.out.print("核心线程数：" + executor.getCorePoolSize()+" ");

@@ -1,0 +1,3 @@
+参考自：
+Java异常封装（自己定义错误码和描述，附源码） - 小宝鸽 - CSDN博客
+https://blog.csdn.net/u013142781/article/details/50609488

@@ -18,12 +18,7 @@ public class CallableAndFutureTest {
         Task<Integer> task = new Task();
         Future<Integer> future = executorService.submit(task);
 
-        Future<?> future2 = executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("future2---执行中");
-            }
-        });
+        Future<?> future2 = executorService.submit(() -> System.out.println("future2---执行中"));
 
 
 //        FutureTask<Integer> futureTask = new FutureTask(task);

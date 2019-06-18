@@ -1,5 +1,7 @@
 package com.jf.mydemo.mytest.FileTest;
 
+import com.jf.mydemo.mytest.Utils.uploadFileUtils.officeUtils.LibreOfficeConvert2PdfUtil;
+import com.jf.mydemo.mytest.Utils.uploadFileUtils.officeUtils.OfficeHomeUtil;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import sun.misc.Cleaner;
@@ -210,4 +212,12 @@ public class myFileTest {
             return null;
         });
     }
+
+    @Test
+    public void myFileTest(){
+        File inputFile = new File("E:\\Users\\houshuan-test\\12.xlsx");
+        //转换该文件
+        LibreOfficeConvert2PdfUtil.convertFile(inputFile,"1-xlsx.pdf", OfficeHomeUtil.getLibreOfficeHome()+"test");
+    }
+
 }

@@ -1,8 +1,11 @@
 package com.jf.mydemo.mytest.MapTest;
 
+import com.jf.mydemo.mytest.FileTest.ServiceException;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -65,11 +68,39 @@ public class MapTest {
         m1.put("a",a);
         m1.put("c",c);
         m1.put("b",b);
-
         m2.put("a",a);
         m2.put("c",c);
         m2.put("b",b);
+        checkTokenOuttime(m1);
         System.out.println("m1:"+m1.toString());
         System.out.println("m2:"+m2.toString());
+        for (Map.Entry<String, Object> entry : m1.entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
+        throwOrgCodeExc("JFMS_123-3210哈哈",32,"通过了");
+    }
+    public static void throwOrgCodeExc(String str, int length, String exceptionInfo) {
+        Pattern p = Pattern.compile("^[a-zA-Z0-9_-]{1,32}$");
+        Matcher m = p.matcher(str);
+        if (!m.find() || str.length() > length) {
+            throw new ServiceException(exceptionInfo);
+        }
+    }
+    private void checkTokenOuttime(Map<String,Object> map){
+        Date curDate = new Date();
+        List<String> removeKeys = new ArrayList<>(map.size());
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            //遍历map中的元素，查看当前时间和存入改key的时间间隔
+            if("a".equals(entry.getKey())){
+                //如果已过期，则移除掉该key值
+                removeKeys.add(entry.getKey());
+            }
+        }
+        if(removeKeys.size() > 0){
+            for (String key:removeKeys
+                    ) {
+                map.remove(key);
+            }
+        }
     }
 }
