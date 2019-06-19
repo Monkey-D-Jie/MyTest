@@ -66,4 +66,24 @@ public class Apple {
                 ", num=" + num +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Apple apple = (Apple) o;
+
+        if (!name.equals(apple.name)) return false;
+        if (!money.equals(apple.money)) return false;
+        return num.equals(apple.num);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + money.hashCode();
+        result = 31 * result + num.hashCode();
+        return result;
+    }
 }

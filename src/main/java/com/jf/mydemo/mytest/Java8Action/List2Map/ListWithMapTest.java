@@ -77,4 +77,17 @@ public class ListWithMapTest {
         //sum:100
         System.err.println("sum:"+sum);
     }
+    @Test
+    public void intersectionTest(){
+        Apple testApple =  new Apple(3,"荔枝",new BigDecimal("9.99"),40);
+        List<Apple> list = new ArrayList<>();
+        list.add(testApple);
+        //利用Stream来判断两个集合是否有交集存在
+        /**
+         * 如果只是单纯的用 对象 默认的 equals方法，这里是得不到结果的
+         * 要求交集这种，需要重写 对象的构造方法
+         */
+        List<Apple> intersectionList = appleList.stream().filter(item -> list.contains(item)).collect(Collectors.toList());
+        System.out.println(intersectionList.toString());
+    }
 }
