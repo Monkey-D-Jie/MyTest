@@ -9,7 +9,7 @@ package com.jf.mydemo.mytest.Java8Action.List2Map;
  * 转载自：
  * java 实体对象与Map之间的转换工具类 - JohnLiu的博客 - CSDN博客
 https://blog.csdn.net/m940034240/article/details/81118091
-
+·
  * To change this template use File | Settings | File and Templates.
  */
 
