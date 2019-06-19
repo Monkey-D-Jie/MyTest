@@ -12,6 +12,8 @@ import java.math.BigDecimal;
  */
 
 public class Apple {
+
+
     private Integer id;
     private String name;
     private BigDecimal money;
