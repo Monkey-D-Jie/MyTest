@@ -1,5 +1,12 @@
 package com.jf.mydemo.mytest.CommonDemoTest;
 
+import com.jf.mydemo.mytest.FileTest.ServiceException;
+import org.junit.Test;
+
+import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -10,5 +17,27 @@ package com.jf.mydemo.mytest.CommonDemoTest;
  */
 
 public class myCommonDemoTest {
+    @Test
+    public void stringTest(){
+        String sqlScriptDirCopy = "D://jf_icms_sql//"+"copySql//";
+        File copyDir = new File(sqlScriptDirCopy);
+        if(!copyDir.isDirectory()){
+            copyDir.mkdir();
+        }
+    }
+    @Test
+    public void getJsonData(){
+        String test = " \\#\\{orgCode\\}";
+        String test2 = "#{orgCode}";
+        System.out.println(test2.replace("\\",""));
+    }
 
+    public static void throwNumberExc(String str,String exceptionInfo) {
+//        isNotBlank(str,exceptionInfo);
+        Pattern p = Pattern.compile("^[0-9]+$");
+        Matcher m = p.matcher(str);
+        if (!m.find()) {
+            throw new ServiceException(exceptionInfo);
+        }
+    }
 }
